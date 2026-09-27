@@ -1,0 +1,236 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --vm-ink: #17212b;
+  --vm-muted: #647181;
+  --vm-line: #dfe5ea;
+  --vm-surface: #ffffff;
+  --vm-canvas: #f4f6f8;
+  --vm-accent: #f59e0b;
+  --vm-accent-dark: #b45309;
+  --vm-radius: 14px;
+  --vm-shadow: 0 8px 24px rgba(23, 33, 43, 0.06);
+}
+
+body {
+  font-family: 'DM Sans', 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  background: #f4f6f8;
+  color: #17212b;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button, a, input, select, textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 3px solid rgba(245, 158, 11, 0.35);
+  outline-offset: 2px;
+}
+
+main {
+  background: var(--vm-canvas);
+}
+
+main > div {
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.app-shell main > div {
+  padding-top: 1.5rem;
+}
+
+.app-shell main .bg-white.border-slate-200 {
+  border-color: var(--vm-line);
+  box-shadow: var(--vm-shadow);
+}
+
+.app-shell main input:not([type='checkbox']),
+.app-shell main select,
+.app-shell main textarea {
+  border-color: var(--vm-line);
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.app-shell main input:not([type='checkbox']):focus,
+.app-shell main select:focus,
+.app-shell main textarea:focus {
+  border-color: var(--vm-accent);
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.14);
+  outline: none;
+}
+
+.app-shell main button,
+.app-shell main a {
+  transition: color 150ms ease, background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+}
+
+.app-shell main button:active,
+.app-shell main a:active {
+  transform: translateY(1px);
+}
+
+@keyframes slide-in {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+.animate-slide-in {
+  animation: slide-in 180ms ease-out;
+}
+
+@media (max-width: 640px) {
+  main > div {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  main .p-6 {
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+  }
+
+  main h1 {
+    font-size: 1.25rem;
+    line-height: 1.35;
+  }
+
+  .app-shell main > div {
+    padding-top: 1.25rem;
+  }
+
+  .responsive-table-container {
+    overflow: visible;
+  }
+
+  .responsive-data-table,
+  .responsive-data-table tbody {
+    display: block;
+    width: 100%;
+  }
+
+  .responsive-data-table thead {
+    display: none;
+  }
+
+  .responsive-data-table tbody {
+    display: grid;
+    gap: 0.875rem;
+  }
+
+  .responsive-data-table tr {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 0.45rem 0.85rem;
+    border: 1px solid var(--vm-line);
+    border-radius: var(--vm-radius);
+    background: var(--vm-surface);
+    box-shadow: var(--vm-shadow);
+  }
+
+  .responsive-data-table td {
+    display: grid;
+    grid-template-columns: minmax(7.25rem, 38%) minmax(0, 1fr);
+    align-items: start;
+    gap: 0.75rem;
+    width: 100%;
+    max-width: none !important;
+    min-width: 0;
+    padding: 0.7rem 0.1rem;
+    border-bottom: 1px solid #edf0f2;
+    text-align: left !important;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .responsive-data-table td::before {
+    content: attr(data-label);
+    color: var(--vm-muted);
+    font-size: 0.64rem;
+    font-weight: 800;
+    line-height: 1.35;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .responsive-data-table td:last-child {
+    border-bottom: 0;
+  }
+
+  .responsive-data-table td > * {
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .responsive-data-table td[data-label='Actions'],
+  .responsive-data-table td[data-label='Status Action'] {
+    display: block;
+  }
+
+  .responsive-data-table td[data-label='Actions']::before,
+  .responsive-data-table td[data-label='Status Action']::before {
+    display: block;
+    margin-bottom: 0.45rem;
+  }
+
+  .responsive-data-table td[data-label='Actions'] a,
+  .responsive-data-table td[data-label='Actions'] button,
+  .responsive-data-table td[data-label='Status Action'] select {
+    max-width: 100%;
+    margin: 0.15rem 0.35rem 0.15rem 0;
+    white-space: normal;
+  }
+
+  .responsive-data-table td .truncate {
+    display: block;
+    overflow: visible;
+    text-overflow: clip;
+    white-space: normal;
+  }
+
+  .responsive-data-table td .line-clamp-2 {
+    display: block;
+    overflow: visible;
+    -webkit-line-clamp: unset;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+code, pre {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Print layout optimization for CertiSure certificates */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #printable-certificate, #printable-certificate * {
+    visibility: visible;
+  }
+  #printable-certificate {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+}
