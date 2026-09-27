@@ -1,4 +1,4 @@
--- PostgreSQL Database Schema for VeriMeasure Legal Metrology Platform (India)
+-- SQLite Database Schema for VeriMeasure Legal Metrology Platform (India)
 -- Compliant with Legal Metrology Act, 2009 & General Rules, 2011
 
 CREATE TABLE IF NOT EXISTS organizations (

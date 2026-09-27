@@ -1,12 +1,12 @@
 # VeriMeasure India – Unified Legal Metrology Verification, Certification & Instrument Lifecycle Management Platform
 
 [![Node.js Version](https://img.shields.io/badge/Node.js-v20+-green.svg)](https://nodejs.org)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-v16-blue.svg)](https://www.postgresql.org)
+[![SQLite](https://img.shields.io/badge/SQLite-embedded-blue.svg)](https://www.sqlite.org)
 [![React](https://img.shields.io/badge/React-v18-cyan.svg)](https://reactjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-v5-blue.svg)](https://www.typescriptlang.org)
 [![License](https://img.shields.io/badge/License-Government_Proprietary-orange.svg)]()
 
-> A production-style, modular PERN stack platform for digitizing and streamlining the complete statutory lifecycle of regulated weighing and measuring instruments across India in compliance with the **Legal Metrology Act, 2009** and **Legal Metrology (General) Rules, 2011**.
+> A production-style, modular TypeScript platform with an embedded SQLite database for digitizing and streamlining the complete statutory lifecycle of regulated weighing and measuring instruments across India in compliance with the **Legal Metrology Act, 2009** and **Legal Metrology (General) Rules, 2011**.
 
 ---
 
@@ -77,7 +77,7 @@ Rather than functioning merely as a certificate issuing portal, **VeriMeasure** 
 
 ---
 
-## 🗄️ Database Architecture (PostgreSQL Schema)
+## 🗄️ Database Architecture (SQLite)
 
 ```
 [organizations] 1 ─── N [users] 1 ─── N [instruments] 1 ─── N [applications]
@@ -117,14 +117,14 @@ Rather than functioning merely as a certificate issuing portal, **VeriMeasure** 
 ### Prerequisites
 - **Node.js**: v20.0.0 or higher
 - **npm**: v10.0.0 or higher
-- **Docker & Docker Compose** (Optional, for production PostgreSQL containers)
 
-### Quick Start (Standalone Local Run with Embedded DB Fallback)
+### Quick Start (Standalone Local Run with Embedded SQLite)
 
 1. **Clone Repository & Install Dependencies**:
    ```bash
-   git clone https://github.com/verimeasure/verimeasure-india.git
-   cd verimeasure-india
+   git clone https://github.com/prakhar4684/veriMeasure.git
+   cd veriMeasure
+   Copy-Item .env.example .env
    npm run install:all
    ```
 
@@ -136,15 +136,13 @@ Rather than functioning merely as a certificate issuing portal, **VeriMeasure** 
 
 3. **Start Backend API Server**:
    ```bash
-   cd server
-   npm run dev
+   npm run dev:server
    ```
    *The backend will automatically initialize the database schema and populate realistic Indian Legal Metrology seed data.*
 
 4. **Start Frontend Dev Server**:
    ```bash
-   cd client
-   npm run dev
+   npm run dev:client
    ```
    *Open [http://localhost:3000](http://localhost:3000) in your browser.*
 
@@ -183,14 +181,12 @@ You can switch between any of the 5 roles instantly using the **Quick Role Switc
 
 ---
 
-## 🐳 Docker Deployment
-
-To launch the complete production environment (PostgreSQL 16, Node API, React Nginx frontend) via Docker Compose:
+For convenience, both services can also be started together:
 
 ```bash
-docker-compose up --build -d
+npm run dev
 ```
 
 - **Frontend Application**: `http://localhost:3000`
 - **Backend API**: `http://localhost:5000`
-- **PostgreSQL Database**: `localhost:5432`
+- **Local Database**: `server/verimeasure.db` (created automatically)
