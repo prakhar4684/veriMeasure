@@ -1,9 +1,10 @@
-const configuredApiUrl = import.meta.env.VITE_API_URL?.trim();
-const API_BASE = configuredApiUrl
-  ? `${configuredApiUrl.replace(/\/$/, '')}/api/v1`
-  : import.meta.env.PROD
-    ? 'https://verimeasure.onrender.com/api/v1'
-    : '/api/v1';
+import axios from 'axios';
+
+const configuredApiUrl = import.meta.env.VITE_API_URL?.trim() || 'https://verimeasure.onrender.com';
+const normalizedApiUrl = configuredApiUrl.replace(/\/$/, '');
+const API_BASE = normalizedApiUrl.endsWith('/api/v1')
+  ? normalizedApiUrl
+  : `${normalizedApiUrl}/api/v1`;
 
 export function getToken(): string | null {
   return localStorage.getItem('vm_token');
@@ -28,15 +29,31 @@ export async function apiFetch(endpoint: string, options: RequestInit = {}) {
     headers['Authorization'] = `Bearer ${token}`;
   }
 
-  const res = await fetch(`${API_BASE}${endpoint}`, {
-    ...options,
-    headers
-  });
-
-  if (!res.ok) {
-    const errorData = await res.json().catch(() => ({ error: 'Network response was not ok' }));
-    throw new Error(errorData.error || `HTTP error ${res.status}`);
+  let data = options.body;
+  if (typeof data === 'string') {
+    try {
+      data = JSON.parse(data);
+    } catch {
+      data = options.body;
+    }
   }
 
-  return res.json();
+  try {
+    const response = await axios({
+      baseURL: API_BASE,
+      url: endpoint,
+      method: options.method || 'GET',
+      headers,
+      data
+    });
+
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const message = error.response?.data?.error || error.message || 'Network response was not ok';
+      throw new Error(message);
+    }
+
+    throw error;
+  }
 }
