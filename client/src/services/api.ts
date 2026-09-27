@@ -1,4 +1,9 @@
-const API_BASE = '/api/v1';
+const configuredApiUrl = import.meta.env.VITE_API_URL?.trim();
+const API_BASE = configuredApiUrl
+  ? `${configuredApiUrl.replace(/\/$/, '')}/api/v1`
+  : import.meta.env.PROD
+    ? 'https://verimeasure.onrender.com/api/v1'
+    : '/api/v1';
 
 export function getToken(): string | null {
   return localStorage.getItem('vm_token');
